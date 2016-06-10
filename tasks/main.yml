@@ -22,7 +22,7 @@
   shell: >
       kapacitor define {{ item|basename|replace('.tick','') }} \
           -type stream \
-          -tick {{ item }} \
+          -tick {{ kapacitor_extra_dsl_dir }}/{{ item|basename }} \
           -dbrp {{ kapacitor_extra_database }}.{{ kapacitor_extra_retention_policy }} && \
       kapacitor enable {{ item|basename|replace('.tick','') }}
   with_fileglob:
