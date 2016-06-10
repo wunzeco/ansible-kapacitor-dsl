@@ -19,6 +19,7 @@ roles that may be of interest:
 - hosts: myhost
 
   vars:
+    kapacitor_version: 0.13.0-1
     
   roles:
     - wunzeco.kapacitor
@@ -30,6 +31,8 @@ roles that may be of interest:
 
 none
 
+*Note:*
+For email alerts, host may need a mail transfer agent (MTA) installed too. e.g. Postfix
 
 [wunzeco.telegraf]: https://github.com/wunzeco/ansible-telegraf
 [wunzeco.influxdb]: https://github.com/wunzeco/ansible-influxdb

@@ -1,6 +1,6 @@
 ---
 
-kapcitor_extra_tickscript_dir:
-
-
-kapacitor_http_bind_address:  ':9092'
+kapacitor_extra_dsl_dir: /usr/local/kapacitor
+kapacitor_extra_exclude_tasks: [ diskio_alert ]     # kapacitor task not to define & to delete if it exists
+kapacitor_extra_database: telegraf
+kapacitor_extra_retention_policy: default

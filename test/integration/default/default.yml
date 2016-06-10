@@ -28,3 +28,13 @@
     - wunzeco.telegraf
     - wunzeco.chronograf
     - wunzeco.kapacitor
+    - ansible-kapacitor-extra
+
+  post_tasks:
+    - name: Install postfix as the mail transfer agent | Debian
+      apt:  name=postfix state=present
+      when: ansible_os_family|lower == 'debian'
+
+    - name: Install postfix as the mail transfer agent | RedHat
+      yum:  name=postfix state=present
+      when: ansible_os_family|lower == 'redhat'

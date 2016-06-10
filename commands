@@ -1,0 +1,21 @@
+
+
+cat > stress-test.sh <<EOF
+#!/bin/bash
+
+DURATION=${1:-10}
+
+stress_test() {
+    uptime
+    stress -c 8 -i 4 -m 1 --vm-bytes 128M -t ${DURATION}s
+    uptime
+	echo
+}
+
+for i in $(seq 1 10); do stress_test; sleep 5; done
+EOF
+
+
+
+kapacitor define cpu_alert -type stream -tick /usr/local/kapacitor/cpu_alert.tick -dbrp telegraf.default
+kapacitor enable cpu_alert

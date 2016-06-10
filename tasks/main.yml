@@ -1,2 +1,42 @@
 ---
 
+# Assumptions:
+#   - Kapacitor TICKScript files are sourced from this role's files directory
+#   - All kapacktor task definition files (TICKScript files) are installed and enabled by default
+#   - "kapacitor_extra_exclude_tasks" variable for files to exclude and tasks to delete from kapacitor
+
+- name: Create kapacitor dsl directory
+  file:
+    path:  "{{ kapacitor_extra_dsl_dir }}"
+    state: directory
+
+- name: Copy kapacitor task definition files
+  copy:
+    src:  "{{ item }}"
+    dest: "{{ kapacitor_extra_dsl_dir }}"
+  with_fileglob:
+    - "*.tick"
+  when: "{{ item|basename|replace('.tick','') not in kapacitor_extra_exclude_tasks }}"
+
+- name: Define and enable kapacitor tasks
+  shell: >
+      kapacitor define {{ item|basename|replace('.tick','') }} \
+          -type stream \
+          -tick {{ item }} \
+          -dbrp {{ kapacitor_extra_database }}.{{ kapacitor_extra_retention_policy }} && \
+      kapacitor enable {{ item|basename|replace('.tick','') }}
+  with_fileglob:
+    - "*.tick"
+  when: "{{ item|basename|replace('.tick','') not in kapacitor_extra_exclude_tasks }}"
+  register: define
+
+- name: Delete excluded kapacitor task definition files
+  file:
+    path:  "{{ kapacitor_extra_dsl_dir }}/{{ item }}.tick"
+    state: absent
+  with_items: "{{ kapacitor_extra_exclude_tasks }}"
+
+- name: Remove excluded kapacitor tasks
+  shell: >
+      kapacitor delete tasks {{ item }}
+  with_items: "{{ kapacitor_extra_exclude_tasks }}"
