@@ -4,8 +4,8 @@ stream
     // create a new field called 'used' which inverts the idle cpu.
     |groupBy('host')
     |window()
-        .period(1m)
-        .every(1m)
+        .period(5m)
+        .every(5m)
     // calculate the 95th percentile of the used disk io_time.
     |percentile('io_time', 95.0)
     |eval(lambda: sigma("percentile"))
