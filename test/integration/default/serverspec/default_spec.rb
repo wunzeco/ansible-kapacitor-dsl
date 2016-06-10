@@ -1,13 +1,17 @@
 require 'spec_helper'
 
-describe package('kapacitor') do
-  it { should be_installed }
+kapacitor_extra_dsl_dir = '/usr/local/kapacitor'
+
+describe file('/usr/local/kapacitor') do
+  it { should be_directory }
+  it { should be_owned_by 'root' }
+  it { should be_mode 755 }
 end
 
-%w(
-  /etc/kapacitor/kapacitor.conf
-  /etc/logrotate.d/kapacitor
-  /etc/default/kapacitor
+%W(
+  #{kapacitor_extra_dsl_dir}/cpu_alert.tick
+  #{kapacitor_extra_dsl_dir}/mem_alert.tick
+  #{kapacitor_extra_dsl_dir}/disk_alert.tick
 ).each do |f|
   describe file(f) do
     it { should be_file }
@@ -16,18 +20,7 @@ end
   end
 end
 
-describe file('/var/lib/kapacitor') do
-  it { should be_directory }
-  it { should be_owned_by 'kapacitor' }
-  it { should be_mode 755 }
-end
-
-describe file('/var/log/kapacitor') do
-  it { should be_directory }
-  it { should be_owned_by 'kapacitor' }
-  it { should be_mode 755 }
-end
-
-describe service('kapacitor') do
-  it { should be_running }
+describe command('kapacitor show cpu_alert') do
+  its(:exit_status) { should eq 0 }
+  its(:stdout) { should match %r(digraph cpu_alert) }
 end
