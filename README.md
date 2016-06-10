@@ -1,7 +1,7 @@
 kapacitor
 ==============
 
-Ansible role to define and enable Kapacitor tasks. It uses `kapacitor` CLI 
+Ansible role to manage Kapacitor task definitions. It uses `kapacitor` CLI 
 program for calling the Kapacitor API.
 
 This role requires that Kapacitor is installed and running locally on the host. 
