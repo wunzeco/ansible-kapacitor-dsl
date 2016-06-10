@@ -20,7 +20,7 @@
 
 
   vars_files:
-    - roles/ansible-kapacitor-extra/test/plugins-vars.yml
+    - roles/ansible-kapacitor-dsl/test/plugins-vars.yml
 
   roles:
     - wunzeco.docker
@@ -28,7 +28,7 @@
     - wunzeco.telegraf
     - wunzeco.chronograf
     - wunzeco.kapacitor
-    - ansible-kapacitor-extra
+    - ansible-kapacitor-dsl
 
   post_tasks:
     - name: Install postfix as the mail transfer agent | Debian
