@@ -5,7 +5,8 @@
   vars:
     #telegraf_user: root
     telegraf_global_tags:
-      machine_role: test-kitchen
+      datacenter: kitchendc
+      service:    test-kitchen
     docker_engine_opts:
       - '-H tcp://0.0.0.0:2375'
       - '-H unix:///var/run/docker.sock'

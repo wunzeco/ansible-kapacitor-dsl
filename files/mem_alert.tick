@@ -6,7 +6,7 @@ stream
         .period(5m)
         .every(5m)
     |alert()
-        .id('{{ .Name }}/{{ index .Tags "host" }}')
+        .id('{{ .Name }}/{{ index .Tags "service" }}/{{ index .Tags "datacenter" }}/{{ index .Tags "host" }}')
         .message('{{ .ID }} is {{ .Level }}')
         .warn(lambda: "used_percent" > 80)
         .crit(lambda: "used_percent" > 90)
