@@ -1,4 +1,4 @@
-kapacitor
+kapacitor-dsl
 ==============
 
 Ansible role to manage Kapacitor task definitions. It uses `kapacitor` CLI 
@@ -24,6 +24,15 @@ roles that may be of interest:
   roles:
     - wunzeco.kapacitor
     - wunzeco.kapacitor-extra
+```
+
+
+## Testing
+
+To run this role's integration tests
+
+```
+kitchen test
 ```
 
 
