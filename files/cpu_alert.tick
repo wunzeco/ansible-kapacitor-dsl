@@ -17,7 +17,7 @@ stream
         .id('{{ .Name }}/{{ index .Tags "service" }}/{{ index .Tags "datacenter" }}/{{ index .Tags "host" }}')
         .message('{{ .ID }} is {{ .Level }} cpu-95th:{{ index .Fields "percentile" }}')
         // Compare values to running mean and standard deviation
-        .warn(lambda: "sigma" > 2.5)
-        .crit(lambda: "sigma" > 3.0)
+        .warn(lambda: "sigma" > 3.0)
+        .crit(lambda: "sigma" > 3.5)
         .email()
         .log('/tmp/cpu_alerts.log')
