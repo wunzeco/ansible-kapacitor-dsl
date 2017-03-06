@@ -4,7 +4,7 @@ stream
     // create a new field called 'used' which inverts the idle cpu.
     |eval(lambda: 100.0 - "usage_idle")
         .as('used')
-    |groupBy('host')
+    |groupBy('host', 'service', 'datacenter')
     |window()
         .period(5m)
         .every(5m)

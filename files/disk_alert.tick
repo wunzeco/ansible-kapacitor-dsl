@@ -1,7 +1,7 @@
 stream
     |from()
         .measurement('disk')
-    |groupBy('host')
+    |groupBy('host', 'service', 'datacenter')
     |window()
         .period(5m)
         .every(5m)
