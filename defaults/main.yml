@@ -1,6 +1,6 @@
 ---
 
-kapacitor_dsl_dir: /usr/local/kapacitor
+kapacitor_dsl_work_dir: /usr/local/kapacitor
 kapacitor_dsl_exclude_tasks: [ diskio_alert ]     # kapacitor task not to define & to delete if it exists
 kapacitor_dsl_database: telegraf
 kapacitor_dsl_retention_policy: autogen

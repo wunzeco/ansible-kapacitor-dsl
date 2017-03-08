@@ -7,13 +7,13 @@
 
 - name: Create kapacitor dsl directory
   file:
-    path:  "{{ kapacitor_dsl_dir }}"
+    path:  "{{ kapacitor_dsl_work_dir }}"
     state: directory
 
 - name: Copy kapacitor task definition files
   copy:
     src:  "{{ item }}"
-    dest: "{{ kapacitor_dsl_dir }}"
+    dest: "{{ kapacitor_dsl_work_dir }}"
   with_fileglob:
     - "*.tick"
   when: "{{ item|basename|replace('.tick','') not in kapacitor_dsl_exclude_tasks }}"
@@ -22,7 +22,7 @@
   shell: >
       kapacitor define {{ item|basename|replace('.tick','') }} \
           -type stream \
-          -tick {{ kapacitor_dsl_dir }}/{{ item|basename }} \
+          -tick {{ kapacitor_dsl_work_dir }}/{{ item|basename }} \
           -dbrp {{ kapacitor_dsl_database }}.{{ kapacitor_dsl_retention_policy }} && \
       kapacitor enable {{ item|basename|replace('.tick','') }}
   with_fileglob:
@@ -32,7 +32,7 @@
 
 - name: Delete excluded kapacitor task definition files
   file:
-    path:  "{{ kapacitor_dsl_dsl_dir }}/{{ item }}.tick"
+    path:  "{{ kapacitor_dsl_work_dir }}/{{ item }}.tick"
     state: absent
   with_items: "{{ kapacitor_dsl_exclude_tasks }}"
 
