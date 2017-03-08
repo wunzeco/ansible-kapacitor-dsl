@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-kapacitor_extra_dsl_dir = '/usr/local/kapacitor'
+kapacitor_dsl_dir = '/usr/local/kapacitor'
 
 describe file('/usr/local/kapacitor') do
   it { should be_directory }
@@ -9,9 +9,9 @@ describe file('/usr/local/kapacitor') do
 end
 
 %W(
-  #{kapacitor_extra_dsl_dir}/cpu_alert.tick
-  #{kapacitor_extra_dsl_dir}/mem_alert.tick
-  #{kapacitor_extra_dsl_dir}/disk_alert.tick
+  #{kapacitor_dsl_dir}/cpu_alert.tick
+  #{kapacitor_dsl_dir}/mem_alert.tick
+  #{kapacitor_dsl_dir}/disk_alert.tick
 ).each do |f|
   describe file(f) do
     it { should be_file }
