@@ -4,3 +4,15 @@ kapacitor_dsl_work_dir: /usr/local/kapacitor
 kapacitor_dsl_exclude_tasks: [ diskio_alert ]     # kapacitor task not to define & to delete if it exists
 kapacitor_dsl_database: telegraf
 kapacitor_dsl_retention_policy: autogen
+
+
+#kapacitor_dsl_cpu_alert:
+#  info: 70
+#  warn: 80
+#  crit: 90
+#  infoSig: 2.5
+#  warnSig: 3
+#  critSig: 3.5
+#  period: 1m
+#  every: 1m
+#  groupBy: [ host, service, datacenter ]

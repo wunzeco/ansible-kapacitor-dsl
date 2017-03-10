@@ -1,0 +1,57 @@
+// cpu_alert_stream
+
+// metric: usage_user
+// available_fields: "usage_guest","usage_guest_nice","usage_idle","usage_iowait", "usage_irq","usage_nice","usage_softirq","usage_steal","usage_system"
+
+// TELEGRAF CONFIGURATION
+// [[inputs.cpu]]
+//   percpu = true
+//   totalcpu = true
+//   fielddrop = ["time_*"]
+
+// DEFINE: kapacitor define cpu_alert_stream -type stream -tick cpu/cpu_alert_stream.tick -dbrp telegraf.autogen
+// ENABLE: kapacitor enable cpu_alert_stream
+
+// Parameters
+var info = {{ kapacitor_dsl_cpu_alert.info|default(70) }}
+var warn = {{ kapacitor_dsl_cpu_alert.warn|default(80) }}
+var crit = {{ kapacitor_dsl_cpu_alert.crit|default(90) }}
+var infoSig = {{ kapacitor_dsl_cpu_alert.infoSig|default(2.5) }}
+var warnSig = {{ kapacitor_dsl_cpu_alert.warnSig|default(3) }}
+var critSig = {{ kapacitor_dsl_cpu_alert.critSig|default(3.5) }}
+var period = {{ kapacitor_dsl_cpu_alert.period|default('1m') }}
+var every = {{ kapacitor_dsl_cpu_alert.every|default('1m') }}
+
+// Dataframe
+var data = stream
+  |from()
+    .database('{{ kapacitor_dsl_database }}')
+    .retentionPolicy('{{ kapacitor_dsl_retention_policy }}')
+    .measurement('cpu')
+    .groupBy('{{ kapacitor_dsl_cpu_alert.groupBy|default("host")|join("', '") }}' )
+    .where(lambda: "cpu" == 'cpu-total')
+  |window()
+    .period(period)
+    .every(every)
+  |mean('usage_user')
+    .as('stat')
+
+// Thresholds
+var alert = data
+  |eval(lambda: sigma("stat"))
+      .as('sigma')
+      .keep()
+  |alert()
+    .id('{{ .Name }}/{{ index .Tags "service" }}/{{ index .Tags "datacenter" }}/{{ index .Tags "host" }}')
+    .message('{{ .ID }} is {{ .Level }} mean:{{ index .Fields "stat" }}')
+{% if kapacitor_dsl_cpu_alert.info|default(false) %}
+    .info(lambda: "stat" > info OR "sigma" > infoSig)
+{% endif %}
+    .warn(lambda: "stat" > warn OR "sigma" > warnSig)
+    .crit(lambda: "stat" > crit OR "sigma" > critSig)
+    
+// Alert
+alert
+  .email()
+  .slack()
+  .log('/tmp/cpu_alert_stream.log')
