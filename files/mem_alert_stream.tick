@@ -40,7 +40,7 @@ var alert = data
     |alert()
         .id('{{ .Name }}/{{ index .Tags "service" }}/{{ index .Tags "datacenter" }}/{{ index .Tags "host" }}')
 	.message('{{ .ID }} is {{ .Level }} mean:{{ index .Fields "stat" }} stddev:{{ index .Fields "sigma" }}')
-        .info(lambda: "stat" > info OR "sigma" > infoSig)
+        //.info(lambda: "stat" > info OR "sigma" > infoSig)
         .warn(lambda: "stat" > warn OR "sigma" > warnSig)
         .crit(lambda: "stat" > crit OR "sigma" > critSig)
 
