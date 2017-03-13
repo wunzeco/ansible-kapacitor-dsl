@@ -16,9 +16,9 @@
 var info = 70
 var warn = 80
 var crit = 90
-var infoSig = 2.5
-var warnSig = 3
-var critSig = 3.5
+var infoSig = 3.5
+var warnSig = 4
+var critSig = 4.5
 var period = 5m
 var every = 5m
 
