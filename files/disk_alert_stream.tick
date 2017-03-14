@@ -34,7 +34,7 @@ var data = stream
 var alert = data
     |alert()
         .id('{{ .Name }}/{{ index .Tags "service" }}/{{ index .Tags "datacenter" }}/{{ index .Tags "host" }}')
-        .message('{{ .ID }} is {{ .Level }} mean:{{ index .Fields "stat" }}')
+        .message('{{ .ID }} is {{ .Level }} mean:{{ index .Fields "stat" }} @channel')
         //.info(lambda: "stat" > info)
         .warn(lambda: "stat" > warn)
         .crit(lambda: "stat" > crit)
