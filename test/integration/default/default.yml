@@ -27,7 +27,6 @@
     - wunzeco.docker
     - wunzeco.influxdb
     - wunzeco.telegraf
-    - wunzeco.chronograf
     - wunzeco.kapacitor
     - ansible-kapacitor-dsl
 

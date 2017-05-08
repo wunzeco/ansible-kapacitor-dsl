@@ -9,9 +9,9 @@ describe file('/usr/local/kapacitor') do
 end
 
 %W(
-  #{kapacitor_dsl_work_dir}/cpu_alert.tick
-  #{kapacitor_dsl_work_dir}/mem_alert.tick
-  #{kapacitor_dsl_work_dir}/disk_alert.tick
+  #{kapacitor_dsl_work_dir}/cpu_alert_stream.tick
+  #{kapacitor_dsl_work_dir}/mem_alert_stream.tick
+  #{kapacitor_dsl_work_dir}/disk_alert_stream.tick
 ).each do |f|
   describe file(f) do
     it { should be_file }
@@ -20,7 +20,7 @@ end
   end
 end
 
-describe command('kapacitor show cpu_alert') do
+describe command('kapacitor show cpu_alert_stream') do
   its(:exit_status) { should eq 0 }
   its(:stdout) { should match %r(digraph cpu_alert) }
 end

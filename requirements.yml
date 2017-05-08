@@ -1,5 +1,4 @@
 - src: wunzeco.docker
 - src: wunzeco.telegraf
 - src: wunzeco.influxdb
-- src: wunzeco.chronograf
 - src: wunzeco.kapacitor
