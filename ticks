@@ -20,7 +20,7 @@ stream
         .crit(lambda: "usage_idle" <  90)
         .log('/tmp/alerts.log')
         .mode(644)
-        .email() //.to("oiwunze@equalexperts.com")
+        .email() //.to("ogonna@gmail.com")
 vagrant@default-ubuntu-1404:~$ cat real_cpu_alert.tick
 stream
     |from()
@@ -43,6 +43,6 @@ stream
         // Compare values to running mean and standard deviation
         .warn(lambda: "sigma" > 2.5)
         .crit(lambda: "sigma" > 3.0)
-        .email().to('ogonna.iwunze@gmail.com')
+        .email().to('ogonna@gmail.com')
         .log('/tmp/alerts.log')
 vagrant@default-ubuntu-1404:~$
